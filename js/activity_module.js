@@ -5,10 +5,13 @@ let totalSeconds = 0;
 let remainingSeconds = 0;
 let isRunning = false;
 
-// Configurações das atividades (importado do section_module.js)
+let referenceSecondsWarningAlert = 60;
+let referenceSecondsDangerAlert = 30;
+
+// Activity settings (imported from section_module.js)
 let currentActivity = null;
 
-// Função para definir a imagem da atividade
+// Function to set the activity image
 export function setActivityImage(imagePath) {
     const activityImg = document.getElementById('activity-id');
     if (activityImg) {
@@ -17,102 +20,106 @@ export function setActivityImage(imagePath) {
     }
 }
 
-// Função para configurar o timer com minutos específicos
+// Function to set the limit for seconds reference in percentage
+function setLimitSecondsReference(seconds, percentage) {
+    return parseInt(seconds * percentage / 100);
+}
+
+// Function to set the timer with specific minutes
 export function setTimer(minutes = 10) {
     totalSeconds = minutes * 60;
     remainingSeconds = totalSeconds;
+    referenceSecondsWarningAlert = setLimitSecondsReference(totalSeconds, 50); // half the time
+    referenceSecondsDangerAlert = setLimitSecondsReference(totalSeconds, 10); // 10% of the time
     updateTimerDisplay();
-    resetTimer();
 }
 
-// Função para iniciar o timer
-window.startTimer = function() {
+// Function to start the timer
+window.startTimer = function () {
     if (remainingSeconds <= 0) {
         alert('Configure o tempo primeiro!');
         return;
     }
-    
+
     if (!isRunning) {
         isRunning = true;
         timerInterval = setInterval(() => {
             remainingSeconds--;
             updateTimerDisplay();
-            
-            // Alerta quando restam 5 minutos
-            if (remainingSeconds === 300) {
-                showNotification('⚠️ Restam 5 minutos!', 'warning');
+
+            // Alert when time limit is reached
+            if (remainingSeconds === referenceSecondsWarningAlert) {
+                showNotification(`Resta pouco tempo!`, 'warning');
             }
-            
-            // Alerta quando resta 1 minuto
-            if (remainingSeconds === 60) {
-                showNotification('⏰ Último minuto!', 'danger');
+
+            // Alert when 1 minute remaining
+            if (remainingSeconds === referenceSecondsDangerAlert) {
+                showNotification('Tempo esgotando!', 'danger');
             }
-            
-            // Timer finalizado
+
+            // Timer finished
             if (remainingSeconds <= 0) {
                 finishTimer();
             }
         }, 1000);
-        
+
         updateTimerButtons();
-        showNotification('⏱️ Timer iniciado!', 'success');
+        showNotification('Timer iniciado!', 'success');
     }
 };
 
-// Função para pausar o timer
-window.pauseTimer = function() {
+// Function to pause the timer
+window.pauseTimer = function () {
     if (isRunning) {
         isRunning = false;
         clearInterval(timerInterval);
         updateTimerButtons();
-        showNotification('⏸️ Timer pausado!', 'info');
+        showNotification('Timer pausado!', 'info');
     }
 };
 
-// Função para resetar o timer
-window.resetTimer = function() {
+// Function to reset the timer
+window.resetTimer = function () {
     isRunning = false;
     clearInterval(timerInterval);
     remainingSeconds = totalSeconds;
     updateTimerDisplay();
     updateTimerButtons();
-    showNotification('🔄 Timer resetado!', 'secondary');
+    showNotification('Timer resetado!', 'secondary');
 };
 
-// Função para configurar o timer manualmente
-window.setTimer = function() {
+// Function to set the timer manually
+window.setTimer = function () {
     const minutes = prompt('Digite o tempo em minutos:', Math.floor(totalSeconds / 60));
     if (minutes !== null && !isNaN(minutes) && minutes > 0) {
-        totalSeconds = parseInt(minutes) * 60;
-        remainingSeconds = totalSeconds;
+        setTimer(minutes);
         updateTimerDisplay();
-        resetTimer();
-        showNotification(`⚙️ Timer configurado para ${minutes} minutos!`, 'primary');
+        showNotification(`Timer configurado para ${minutes} minutos!`, 'primary');
     }
 };
 
-// Função para atualizar o display do timer
+// Function to update the timer display
 function updateTimerDisplay() {
     const minutes = Math.floor(remainingSeconds / 60);
     const seconds = remainingSeconds % 60;
     const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    
+
     const chronometer = document.getElementById('chronometer');
     if (chronometer) {
         chronometer.textContent = display;
-        
-        // Mudança de cor baseada no tempo restante
+
+        // Color change based on remaining time
         chronometer.className = '';
-        if (remainingSeconds <= 60) {
+        if (remainingSeconds <= referenceSecondsDangerAlert) {
             chronometer.classList.add('text-danger');
-        } else if (remainingSeconds <= 300) {
+        } else if (remainingSeconds <= referenceSecondsWarningAlert) {
             chronometer.classList.add('text-warning');
         } else {
             chronometer.classList.add('text-success');
         }
     }
-    
-    // Atualizar título da página com tempo restante
+
+    // Update page title with time remaining
     if (remainingSeconds > 0 && isRunning) {
         document.title = `(${display}) INFO - Atividade`;
     } else {
@@ -120,38 +127,38 @@ function updateTimerDisplay() {
     }
 }
 
-// Função para atualizar estado dos botões
+// Function to update button status
 function updateTimerButtons() {
     const buttons = document.querySelectorAll('.btn-group button');
     buttons.forEach(btn => {
         btn.disabled = false;
     });
-    
-    // Desabilitar botão play se já estiver rodando
+
+    // Disable the play button if it is already spinning
     const playBtn = document.querySelector('button[onclick="startTimer()"]');
     if (playBtn && isRunning) {
         playBtn.disabled = true;
     }
-    
-    // Desabilitar botão pause se não estiver rodando
+
+    // Disable pause button if not spinning
     const pauseBtn = document.querySelector('button[onclick="pauseTimer()"]');
     if (pauseBtn && !isRunning) {
         pauseBtn.disabled = true;
     }
 }
 
-// Função chamada quando o timer termina
+// Function called when the timer ends
 function finishTimer() {
     isRunning = false;
     clearInterval(timerInterval);
     remainingSeconds = 0;
     updateTimerDisplay();
     updateTimerButtons();
-    
-    // Notificação e efeitos quando termina
-    showNotification('🎉 Tempo esgotado! Atividade finalizada!', 'success');
-    
-    // Piscar o cronômetro
+
+    // Notification and effects when finished
+    showNotification('Tempo esgotado! Atividade finalizada!', 'success');
+
+    // Flashing timer
     const chronometer = document.getElementById('chronometer');
     if (chronometer) {
         chronometer.classList.add('text-danger');
@@ -165,14 +172,14 @@ function finishTimer() {
             }
         }, 300);
     }
-    
-    // Som de notificação (opcional)
+
+    // Notification sound
     playNotificationSound();
 }
 
-// Função para mostrar notificações
+// Function to show notifications
 function showNotification(message, type = 'info') {
-    // Criar elemento de notificação
+    // Create notification element
     const notification = document.createElement('div');
     notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
     notification.style.cssText = `
@@ -183,20 +190,20 @@ function showNotification(message, type = 'info') {
         opacity: 0;
         transition: opacity 0.3s ease;
     `;
-    
+
     notification.innerHTML = `
         ${message}
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     `;
-    
+
     document.body.appendChild(notification);
-    
-    // Mostrar com animação
+
+    // Show with animation
     setTimeout(() => {
         notification.style.opacity = '1';
     }, 100);
-    
-    // Remover automaticamente após 4 segundos
+
+    // Automatically remove after 4 seconds
     setTimeout(() => {
         notification.style.opacity = '0';
         setTimeout(() => {
@@ -207,23 +214,23 @@ function showNotification(message, type = 'info') {
     }, 4000);
 }
 
-// Função para tocar som de notificação
+// Function to play notification sound
 function playNotificationSound() {
     try {
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
-        
+
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
-        
+
         oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
         oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
         oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2);
-        
+
         gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-        
+
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + 0.3);
     } catch (error) {
@@ -231,7 +238,7 @@ function playNotificationSound() {
     }
 }
 
-// Função para configurar atividade específica
+// Function to configure specific activity
 export function setupActivity(activityIndex, activities) {
     if (activities && activities[activityIndex]) {
         currentActivity = activities[activityIndex];
@@ -240,7 +247,7 @@ export function setupActivity(activityIndex, activities) {
     }
 }
 
-// Salvar estado do timer (útil para não perder progresso)
+// Save timer status (useful to avoid losing progress)
 function saveTimerState() {
     const state = {
         totalSeconds,
@@ -251,14 +258,14 @@ function saveTimerState() {
     sessionStorage.setItem('timerState', JSON.stringify(state));
 }
 
-// Restaurar estado do timer
+// Restore timer status
 function restoreTimerState() {
     const saved = sessionStorage.getItem('timerState');
     if (saved) {
         try {
             const state = JSON.parse(saved);
             const elapsed = Math.floor((Date.now() - state.timestamp) / 1000);
-            
+
             if (state.isRunning && state.remainingSeconds > elapsed) {
                 totalSeconds = state.totalSeconds;
                 remainingSeconds = state.remainingSeconds - elapsed;
@@ -273,10 +280,10 @@ function restoreTimerState() {
     }
 }
 
-// Salvar estado periodicamente
+// Save state periodically
 setInterval(saveTimerState, 5000);
 
-// Restaurar estado quando o módulo é carregado
+// Restore state when module is loaded
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(restoreTimerState, 1000);
 });
