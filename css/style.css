@@ -1,0 +1,204 @@
+:root {
+    --height-navbar: 40px;
+    --height-footer: 30px;
+    --height-nabar-media: 70px;
+    --height-footer-media: 60px;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    /* Avoid unwanted scroll bars */
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    transition: background 0.3s, color 0.3s;
+}
+
+.dark-mode {
+    background-color: #121212;
+    color: white;
+}
+
+/* Fixed header at the top */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--height-navbar);
+}
+
+/* Fixed footer at the bottom */
+.footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--height-footer);
+}
+
+/* Main container that occupies the space between header and footer */
+.main-container {
+    position: fixed;
+    top: var(--height-navbar);
+    bottom: var(--height-footer);
+    left: 0;
+    right: 0;
+    width: 100%;
+    /* 100vh - (header + footer) */
+    height: calc(100vh - calc(var(--height-navbar) + var(--height-footer)));
+    overflow: hidden;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+
+.slide.active {
+    display: flex;
+    opacity: 1;
+}
+
+.slide img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    /* Maintains aspect ratio and ensures the entire image is visible */
+    object-fit: contain;
+
+    cursor: zoom-in;
+    transition: transform 0.3s ease-in-out;
+    transform-origin: center center;
+}
+
+.slide.zoomed img {
+    transform: scale(1.8);
+    cursor: zoom-out;
+    /* Keeps contain even when zoomed for better control */
+    object-fit: contain;
+
+}
+
+.prev-btn,
+.next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: rgba(193, 214, 253, 0.8);
+    border: none;
+    padding: 15px 20px;
+    font-size: 2em;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 5px;
+    user-select: none;
+    transition: background-color 0.3s ease;
+}
+
+.prev-btn {
+    left: 20px;
+}
+
+.next-btn {
+    right: 20px;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+    background-color: rgba(51, 50, 71, 0.8);
+    color: rgba(193, 214, 253, 1);
+}
+
+/* Dark mode settings */
+.dark-mode .slide {
+    background-color: #1a1a1a;
+}
+
+.dark-mode .prev-btn,
+.dark-mode .next-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: rgba(193, 214, 253, 0.8);
+}
+
+.dark-mode .prev-btn:hover,
+.dark-mode .next-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgba(193, 214, 253, 1);
+}
+
+/* Activities section timer */
+.crono-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    /* Spacing between image and timer */
+    gap: 30px;
+
+}
+
+#chronometer {
+    font-size: 5em;
+    margin-bottom: 8px;
+}
+
+.btn i {
+    font-size: 1.2em;
+}
+
+
+/* Responsiveness for smaller screens */
+@media (max-width: 768px) {
+    .navbar {
+        height: var(--height-nabar-media);
+    }
+
+    .footer {
+        height: var(--height-footer-media);
+    }
+
+    .main-container {
+        top: var(--height-nabar-media);
+        bottom: var(--height-footer-media);
+        height: calc(100vh - calc(var(--height-nabar-media) + var(--height-footer-media)));
+    }
+
+    .prev-btn,
+    .next-btn {
+        padding: 10px 15px;
+        font-size: 1.5em;
+    }
+
+    .prev-btn {
+        left: 10px;
+    }
+
+    .next-btn {
+        right: 10px;
+    }
+}

@@ -1,0 +1,90 @@
+<header>
+
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">Sobre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Ambiente experimental desenvolvido para facilitar as atividades de informática no laboratório.
+                    </p>
+                    <p><b>Seja bem-vindo!</b></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" onclick="loadSection('home')">Informática</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="topicsDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Tópicos</a>
+                        <ul class="dropdown-menu" aria-labelledby="topicsDropdown">
+                            <li><a class="dropdown-item" href="#" onclick="menu('topics', 0)">Tema 01</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="menu('topics', 1)">Tema 02</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="activitiesDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Atividades</a>
+                        <ul class="dropdown-menu" aria-labelledby="activitiesDropdown">
+                            <li><a class="dropdown-item" href="#" onclick="menu('activities', 1)">Atividade 01</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="menu('activities', 2)">Atividade 02</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#" onclick="menu('activities', 0)">Cronômetro</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="sliderDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Slides</a>
+                        <ul class="dropdown-menu" aria-labelledby="sliderDropdown">
+                            <li><a class="dropdown-item" href="#" onclick="menu('slider', 0)">Slides 01</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="menu('slider', 1)">Slides 02</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#" onclick="menu('slider', 2)">Welcome</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="linksDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">Links Úteis</a>
+                        <ul class="dropdown-menu" aria-labelledby="linksDropdown">
+                            <li><a class="dropdown-item" href="https://support.microsoft.com/pt-br"
+                                    target="_blank">Microsoft - Suporte Oficial</a></li>
+                            <li><a class="dropdown-item" href="https://support.microsoft.com/pt-br/word"
+                                    target="_blank">MS Word - Suporte Oficial</a></li>
+                            <li><a class="dropdown-item" href="https://support.microsoft.com/pt-br/excel"
+                                    target="_blank">MS Excel - Suporte Oficial</a></li>
+                            <li><a class="dropdown-item" href="https://support.microsoft.com/pt-br/powerpoint"
+                                    target="_blank">MS PowerPoint - Suporte Oficial</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal"
+                            data-bs-target="#aboutModal">Sobre</a></li>
+                </ul>
+            </div>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="darkModeToggle">
+                <label class="form-check-label text-white" for="darkModeToggle">Modo Escuro</label>
+            </div>
+        </div>
+    </nav>
+
+</header>
