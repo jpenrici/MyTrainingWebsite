@@ -85,7 +85,7 @@ window.resetTimer = function () {
     remainingSeconds = totalSeconds;
     updateTimerDisplay();
     updateTimerButtons();
-    showNotification('Timer resetado!', 'secondary');
+    showNotification('Timer resetado para última configuração!', 'secondary');
 };
 
 // Function to set the timer manually
@@ -97,6 +97,17 @@ window.setTimer = function () {
         showNotification(`Timer configurado para ${minutes} minutos!`, 'primary');
     }
 };
+
+// Function adds minutes
+window.addTimer = function (minutes) {
+    if (isRunning) {
+        if (minutes !== null && !isNaN(minutes) && minutes > 0) {
+            setTimer(Math.floor(remainingSeconds / 60) + minutes);
+            updateTimerDisplay();
+            showNotification(`Adicionado ${minutes} minutos!`, 'primary');
+        }
+    }
+}
 
 // Function to update the timer display
 function updateTimerDisplay() {
@@ -244,46 +255,8 @@ export function setupActivity(activityIndex, activities) {
         currentActivity = activities[activityIndex];
         setActivityImage(currentActivity.imagePath);
         setTimer(currentActivity.minutes);
-    }
-}
-
-// Save timer status (useful to avoid losing progress)
-function saveTimerState() {
-    const state = {
-        totalSeconds,
-        remainingSeconds,
-        isRunning,
-        timestamp: Date.now()
-    };
-    sessionStorage.setItem('timerState', JSON.stringify(state));
-}
-
-// Restore timer status
-function restoreTimerState() {
-    const saved = sessionStorage.getItem('timerState');
-    if (saved) {
-        try {
-            const state = JSON.parse(saved);
-            const elapsed = Math.floor((Date.now() - state.timestamp) / 1000);
-
-            if (state.isRunning && state.remainingSeconds > elapsed) {
-                totalSeconds = state.totalSeconds;
-                remainingSeconds = state.remainingSeconds - elapsed;
-                updateTimerDisplay();
-                if (remainingSeconds > 0) {
-                    startTimer();
-                }
-            }
-        } catch (error) {
-            console.log('Erro ao restaurar estado do timer');
+        if (isRunning) {
+            window.pauseTimer();
         }
     }
 }
-
-// Save state periodically
-setInterval(saveTimerState, 5000);
-
-// Restore state when module is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(restoreTimerState, 1000);
-});

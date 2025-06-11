@@ -7,7 +7,7 @@ let isZoomed = false;
 let autoSlideInterval = null;
 let isAutoSliding = false;
 
-// Função principal para configurar slides
+// Main function to configure slides
 export function setSlides(slideGroup) {
     if (!slideGroup || !slideGroup.slides || slideGroup.slides.length === 0) {
         console.error('Grupo de slides inválido');
@@ -25,7 +25,7 @@ export function setSlides(slideGroup) {
     setupAutoSlide();
 }
 
-// Inicializar o container do slider
+// Initialize the slider container
 function initializeSlider() {
     slidesContainer = document.getElementById('slidesContainer');
     if (!slidesContainer) {
@@ -37,7 +37,7 @@ function initializeSlider() {
     slidesContainer.className = 'slider-container';
 }
 
-// Carregar todos os slides
+// Load all slides
 function loadSlides() {
     if (!slidesContainer) return;
     
@@ -46,7 +46,7 @@ function loadSlides() {
         slidesContainer.appendChild(slideDiv);
     });
     
-    // Adicionar controles de navegação se houver múltiplos slides
+    // Adding navigation controls if there are multiple slides
     if (currentSlides.length > 1) {
         addNavigationControls();
         addSlideIndicators();
@@ -56,7 +56,7 @@ function loadSlides() {
     addSlideInfo();
 }
 
-// Criar elemento de slide individual
+// Create individual slide element
 function createSlideElement(slidePath, index) {
     const slideDiv = document.createElement('div');
     slideDiv.className = 'slide';
@@ -67,7 +67,7 @@ function createSlideElement(slidePath, index) {
     img.alt = `Slide ${index + 1}`;
     img.loading = 'lazy';
     
-    // Eventos de imagem
+    // Image events
     img.addEventListener('click', toggleZoom);
     img.addEventListener('load', () => {
         slideDiv.classList.add('loaded');
@@ -80,25 +80,25 @@ function createSlideElement(slidePath, index) {
     return slideDiv;
 }
 
-// Adicionar controles de navegação (setas)
+// Adding navigation controls (arrows)
 function addNavigationControls() {
     const prevBtn = document.createElement('button');
     prevBtn.className = 'prev-btn';
     prevBtn.innerHTML = '&#10094;';
-    prevBtn.title = 'Slide anterior (←)';
+    prevBtn.title = 'Slide anterior';
     prevBtn.addEventListener('click', previousSlide);
     
     const nextBtn = document.createElement('button');
     nextBtn.className = 'next-btn';
     nextBtn.innerHTML = '&#10095;';
-    nextBtn.title = 'Próximo slide (→)';
+    nextBtn.title = 'Próximo slide';
     nextBtn.addEventListener('click', nextSlide);
     
     slidesContainer.appendChild(prevBtn);
     slidesContainer.appendChild(nextBtn);
 }
 
-// Adicionar indicadores de slides (pontos)
+// Adding slide indicators (dots)
 function addSlideIndicators() {
     const indicatorsDiv = document.createElement('div');
     indicatorsDiv.className = 'slide-indicators';
@@ -132,7 +132,7 @@ function addSlideIndicators() {
     slidesContainer.appendChild(indicatorsDiv);
 }
 
-// Adicionar informações do slide atual
+// Adding information from the current slide
 function addSlideInfo() {
     const infoDiv = document.createElement('div');
     infoDiv.className = 'slide-info';
@@ -153,17 +153,17 @@ function addSlideInfo() {
     updateSlideInfo();
 }
 
-// Mostrar slide específico
+// Show specific slide
 function showSlide(index) {
     if (index < 0 || index >= currentSlides.length) return;
     
-    // Esconder slide atual
+    // Hide current slide
     const currentSlide = slidesContainer.querySelector('.slide.active');
     if (currentSlide) {
         currentSlide.classList.remove('active');
     }
     
-    // Mostrar novo slide
+    // Show new slide
     const newSlide = slidesContainer.querySelector(`[data-slide-index="${index}"]`);
     if (newSlide) {
         newSlide.classList.add('active');
@@ -174,25 +174,25 @@ function showSlide(index) {
     }
 }
 
-// Próximo slide
+// Next slide
 function nextSlide() {
     const nextIndex = (currentSlideIndex + 1) % currentSlides.length;
     showSlide(nextIndex);
 }
 
-// Slide anterior
+// Previous slide
 function previousSlide() {
     const prevIndex = (currentSlideIndex - 1 + currentSlides.length) % currentSlides.length;
     showSlide(prevIndex);
 }
 
-// Alternar zoom na imagem
+// Toggle image zoom
 function toggleZoom(event) {
     const slide = event.target.closest('.slide');
     const img = event.target;
     
     if (!isZoomed) {
-        // Calcular posição do clique para zoom direcionado
+        // Calculate click position for targeted zoom
         const rect = img.getBoundingClientRect();
         const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
         const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
@@ -201,18 +201,18 @@ function toggleZoom(event) {
         slide.classList.add('zoomed');
         isZoomed = true;
         
-        // Desabilitar auto-slide durante zoom
+        // Disable auto-slide during zoom
         pauseAutoSlide();
     } else {
         slide.classList.remove('zoomed');
         isZoomed = false;
         
-        // Reativar auto-slide
+        // Reactivate auto-slide
         resumeAutoSlide();
     }
 }
 
-// Resetar zoom
+// Reset zoom
 function resetZoom() {
     const currentSlide = slidesContainer.querySelector('.slide.active');
     if (currentSlide) {
@@ -221,7 +221,7 @@ function resetZoom() {
     }
 }
 
-// Atualizar indicadores de slides
+// Updating slide indicators
 function updateSlideIndicators() {
     const indicators = slidesContainer.querySelectorAll('.slide-indicator');
     indicators.forEach((indicator, index) => {
@@ -235,22 +235,23 @@ function updateSlideIndicators() {
     });
 }
 
-// Atualizar informações do slide
+// Updating slide information
 function updateSlideInfo() {
+    if (currentSlides.length <= 1) return;
     const infoDiv = slidesContainer.querySelector('.slide-info');
     if (infoDiv) {
         infoDiv.textContent = `${currentSlideIndex + 1} / ${currentSlides.length}`;
     }
 }
 
-// Configurar controles de teclado
+// Configuring Keyboard Controls
 function setupKeyboardControls() {
     document.addEventListener('keydown', handleKeyboard);
 }
 
-// Manipular eventos de teclado
+// Handling Keyboard Events
 function handleKeyboard(event) {
-    // Só funcionar se o slider estiver ativo
+    // Only works if the slider is active
     if (!slidesContainer || !slidesContainer.querySelector('.slide.active')) return;
     
     switch(event.key) {
@@ -261,7 +262,7 @@ function handleKeyboard(event) {
             break;
         case 'ArrowRight':
         case 'ArrowDown':
-        case ' ': // Espaço
+        case ' ': // Space
             event.preventDefault();
             nextSlide();
             break;
@@ -287,14 +288,14 @@ function handleKeyboard(event) {
     }
 }
 
-// Configurar auto-slide
+// Configure auto-slide
 function setupAutoSlide() {
     if (currentSlides.length > 1) {
         addAutoSlideControls();
     }
 }
 
-// Adicionar controles de auto-slide
+// Add auto-slide controls
 function addAutoSlideControls() {
     const controlsDiv = document.createElement('div');
     controlsDiv.className = 'auto-slide-controls';
@@ -309,7 +310,7 @@ function addAutoSlideControls() {
     
     const playPauseBtn = document.createElement('button');
     playPauseBtn.className = 'auto-slide-btn';
-    playPauseBtn.innerHTML = '▶️';
+    playPauseBtn.innerHTML = 'Auto';
     playPauseBtn.title = 'Auto-slide (ESC)';
     playPauseBtn.style.cssText = `
         background: rgba(0, 0, 0, 0.7);
@@ -326,7 +327,7 @@ function addAutoSlideControls() {
     slidesContainer.appendChild(controlsDiv);
 }
 
-// Alternar auto-slide
+// Toggle auto-slide
 function toggleAutoSlide() {
     if (isAutoSliding) {
         pauseAutoSlide();
@@ -335,40 +336,40 @@ function toggleAutoSlide() {
     }
 }
 
-// Iniciar auto-slide
+// Start auto-slide
 function startAutoSlide() {
     if (currentSlides.length <= 1) return;
     
     isAutoSliding = true;
-    autoSlideInterval = setInterval(nextSlide, 5000); // 5 segundos
+    autoSlideInterval = setInterval(nextSlide, 5000); // 5 seconds
     
     const btn = slidesContainer.querySelector('.auto-slide-btn');
     if (btn) {
-        btn.innerHTML = '⏸️';
+        btn.innerHTML = 'Pausar';
         btn.title = 'Pausar auto-slide (ESC)';
     }
 }
 
-// Pausar auto-slide
+// Pause auto-slide
 function pauseAutoSlide() {
     isAutoSliding = false;
     clearInterval(autoSlideInterval);
     
     const btn = slidesContainer.querySelector('.auto-slide-btn');
     if (btn) {
-        btn.innerHTML = '▶️';
+        btn.innerHTML = 'Auto';
         btn.title = 'Iniciar auto-slide (ESC)';
     }
 }
 
-// Retomar auto-slide
+// Auto-slide resume
 function resumeAutoSlide() {
     if (isAutoSliding) {
         startAutoSlide();
     }
 }
 
-// Alternar tela cheia
+// Toggle full screen
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
         slidesContainer.requestFullscreen?.() || 
@@ -381,7 +382,7 @@ function toggleFullscreen() {
     }
 }
 
-// Lidar com erro de carregamento de imagem
+// Dealing with image loading error
 function handleImageError(img, slideDiv) {
     img.alt = 'Erro ao carregar imagem';
     img.style.display = 'none';
@@ -400,7 +401,7 @@ function handleImageError(img, slideDiv) {
     `;
     errorDiv.innerHTML = `
         <div>
-            <div style="font-size: 48px; margin-bottom: 10px;">📷</div>
+            <div style="font-size: 48px; margin-bottom: 10px;">Sem Imagem</div>
             <div>Erro ao carregar imagem</div>
             <div style="font-size: 14px; margin-top: 5px;">${img.src}</div>
         </div>
@@ -409,12 +410,12 @@ function handleImageError(img, slideDiv) {
     slideDiv.appendChild(errorDiv);
 }
 
-// Limpeza quando sair do slider
+// Cleanup when exiting slider
 export function cleanupSlider() {
     pauseAutoSlide();
     document.removeEventListener('keydown', handleKeyboard);
     resetZoom();
 }
 
-// Event listener para limpeza automática
+// Event listener for automatic cleaning
 document.addEventListener('beforeunload', cleanupSlider);

@@ -1,11 +1,12 @@
 // section-module.js
 
+// Module imports
 import { setupActivity } from "./activity_module.js";
-import { setSlides, cleanupSlider } from "./slider_module.js";
+import { setSlides } from "./slider_module.js";
 
 // Activity settings
 const activities = [
-    { imagePath: "img/activities/default-activity.svg", minutes: 50 },
+    { imagePath: "img/activities/default-activity.svg", minutes: 2 }, // standard image and minimum time
     { imagePath: "img/activities/activity_01.svg", minutes: 30 },
     { imagePath: "img/activities/activity_02.svg", minutes: 40 }
 ];
@@ -23,7 +24,7 @@ const topics = [
     { title: "Tema 02", content: "theme_02" },
 ];
 
-// Call to function that loads HTML components when using module
+// Function that loads HTML components when using module
 export async function loadComponent(placeholderId, componentPath) {
     try {
         const response = await fetch(componentPath);
@@ -40,7 +41,7 @@ export async function loadComponent(placeholderId, componentPath) {
     }
 }
 
-// Call to function that loads sections when using module
+// Function that loads sections when using module
 export async function loadSection(sectionName) {
     try {       
         const response = await fetch(`components/sections/${sectionName}.html`);
@@ -83,7 +84,7 @@ async function loadActivitySection(activityIndex) {
         setTimeout(() => {
             if (activities[activityIndex]) {
                 setupActivity(activityIndex, activities);
-                console.log(`Atividade ${activityIndex + 1} carregada`);
+                console.log(`Atividade ${activityIndex} carregada`);
             } else {
                 console.error('Índice de atividade inválido:', activityIndex);
             }
@@ -103,7 +104,7 @@ async function loadSliderSection(sliderIndex) {
         setTimeout(() => {
             if (sliders[sliderIndex]) {
                 setSlides(sliders[sliderIndex]);
-                console.log(`Slides ${sliderIndex + 1} carregados`);
+                console.log(`Slides ${sliderIndex} carregados`);
             } else {
                 console.error('Índice de slider inválido:', sliderIndex);
             }
