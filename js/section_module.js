@@ -5,22 +5,22 @@ import { setSlides, cleanupSlider } from "./slider_module.js";
 
 // Activity settings
 const activities = [
+    { imagePath: "img/activities/default-activity.svg", minutes: 50 },
     { imagePath: "img/activities/activity_01.svg", minutes: 30 },
-    { imagePath: "img/activities/activity_02.svg", minutes: 40 },
-    { imagePath: "img/activities/default-activity.svg", minutes: 10 },
+    { imagePath: "img/activities/activity_02.svg", minutes: 40 }
 ];
 
 // Slides settings
 const sliders = [
+    { path: "img/welcome", slides: ['welcome.svg'] },
     { path: "img/slides/group_01", slides: ['slide_01.svg', 'slide_02.svg'] },
     { path: "img/slides/group_01", slides: ['slide_02.svg', 'slide_01.svg'] },
-    { path: "img/welcome", slides: ['welcome.png'] },
 ];
 
 // Topic settings
 const topics = [
-    { title: "Tema 01", content: "theme_01.html" },
-    { title: "Tema 02", content: "theme_02.html" },
+    { title: "Tema 01", content: "theme_01" },
+    { title: "Tema 02", content: "theme_02" },
 ];
 
 // Call to function that loads HTML components when using module
@@ -42,10 +42,7 @@ export async function loadComponent(placeholderId, componentPath) {
 
 // Call to function that loads sections when using module
 export async function loadSection(sectionName) {
-    try {
-        // Cleanup before loading new section
-        // cleanup();
-        
+    try {       
         const response = await fetch(`components/sections/${sectionName}.html`);
         if (!response.ok) {
             throw new Error(`Erro ao carregar seção ${sectionName}: ${response.status}`);
@@ -120,24 +117,11 @@ async function loadSliderSection(sliderIndex) {
 // Load Topic Section
 async function loadTopicSection(topicIndex) {
     try {
-        console.log(`Carregando tópico ${topicIndex + 1}`);
-        await loadSection('home');
+        console.log(`Carregando tópico ${topicIndex}`);
+        await loadSection(topics[topicIndex].content);
         
     } catch (error) {
         console.error('Erro ao carregar tópico:', error);
-    }
-}
-
-// Cleaning function
-function cleanup() {
-    // Clear timer if exists
-    if (typeof cleanupActivity === 'function') {
-        cleanupActivity();
-    }
-    
-    // Clear slider if exists
-    if (typeof cleanupSlider === 'function') {
-        cleanupSlider();
     }
 }
 

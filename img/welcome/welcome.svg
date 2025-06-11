@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg2"
+   width="960"
+   height="720"
+   viewBox="0 0 960 720"
+   sodipodi:docname="welcome.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.65555556"
+     inkscape:cx="512.54237"
+     inkscape:cy="414.15254"
+     inkscape:current-layer="g8" />
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g8">
+    <g
+       id="g379"
+       transform="matrix(1.124629,0,0,1.124629,-57.836599,-45.722891)">
+      <text
+         xml:space="preserve"
+         style="font-size:142.677px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';letter-spacing:0px;word-spacing:0px;fill:#008080;stroke-width:4.45867"
+         x="124.18649"
+         y="350.87915"
+         id="text347"
+         transform="scale(0.90044378,1.1105635)"><tspan
+           sodipodi:role="line"
+           id="tspan345"
+           x="124.18649"
+           y="350.87915"
+           style="fill:#008080;stroke-width:4.45867">My Web Site</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-size:142.677px;line-height:1.25;font-family:Arial;-inkscape-font-specification:'Arial, Normal';letter-spacing:0px;word-spacing:0px;fill:#ffffff;stroke-width:4.45867"
+         x="136.5721"
+         y="355.42712"
+         id="text373"
+         transform="scale(0.90044378,1.1105635)"><tspan
+           sodipodi:role="line"
+           id="tspan371"
+           x="136.5721"
+           y="355.42712"
+           style="fill:#ffffff;stroke-width:4.45867">My Web Site</tspan></text>
+    </g>
+  </g>
+</svg>
