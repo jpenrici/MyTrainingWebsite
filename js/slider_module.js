@@ -13,11 +13,11 @@ export function setSlides(slideGroup) {
         console.error('Grupo de slides inválido');
         return;
     }
-    
+
     currentSlides = slideGroup.slides.map(slide => `${slideGroup.path}/${slide}`);
     currentSlideIndex = 0;
     isZoomed = false;
-    
+
     initializeSlider();
     loadSlides();
     showSlide(0);
@@ -32,7 +32,7 @@ function initializeSlider() {
         console.error('Container de slides não encontrado');
         return;
     }
-    
+
     slidesContainer.innerHTML = '';
     slidesContainer.className = 'slider-container';
 }
@@ -40,18 +40,18 @@ function initializeSlider() {
 // Load all slides
 function loadSlides() {
     if (!slidesContainer) return;
-    
+
     currentSlides.forEach((slidePath, index) => {
         const slideDiv = createSlideElement(slidePath, index);
         slidesContainer.appendChild(slideDiv);
     });
-    
+
     // Adding navigation controls if there are multiple slides
     if (currentSlides.length > 1) {
         addNavigationControls();
         addSlideIndicators();
     }
-    
+
     // Adicionar informações do slide atual
     addSlideInfo();
 }
@@ -61,12 +61,12 @@ function createSlideElement(slidePath, index) {
     const slideDiv = document.createElement('div');
     slideDiv.className = 'slide';
     slideDiv.dataset.slideIndex = index;
-    
+
     const img = document.createElement('img');
     img.src = slidePath;
     img.alt = `Slide ${index + 1}`;
     img.loading = 'lazy';
-    
+
     // Image events
     img.addEventListener('click', toggleZoom);
     img.addEventListener('load', () => {
@@ -75,7 +75,7 @@ function createSlideElement(slidePath, index) {
     img.addEventListener('error', () => {
         handleImageError(img, slideDiv);
     });
-    
+
     slideDiv.appendChild(img);
     return slideDiv;
 }
@@ -87,13 +87,13 @@ function addNavigationControls() {
     prevBtn.innerHTML = '&#10094;';
     prevBtn.title = 'Slide anterior';
     prevBtn.addEventListener('click', previousSlide);
-    
+
     const nextBtn = document.createElement('button');
     nextBtn.className = 'next-btn';
     nextBtn.innerHTML = '&#10095;';
     nextBtn.title = 'Próximo slide';
     nextBtn.addEventListener('click', nextSlide);
-    
+
     slidesContainer.appendChild(prevBtn);
     slidesContainer.appendChild(nextBtn);
 }
@@ -111,7 +111,7 @@ function addSlideIndicators() {
         gap: 10px;
         z-index: 15;
     `;
-    
+
     currentSlides.forEach((_, index) => {
         const indicator = document.createElement('button');
         indicator.className = 'slide-indicator';
@@ -128,7 +128,7 @@ function addSlideIndicators() {
         indicator.addEventListener('click', () => showSlide(index));
         indicatorsDiv.appendChild(indicator);
     });
-    
+
     slidesContainer.appendChild(indicatorsDiv);
 }
 
@@ -148,7 +148,7 @@ function addSlideInfo() {
         z-index: 15;
         user-select: none;
     `;
-    
+
     slidesContainer.appendChild(infoDiv);
     updateSlideInfo();
 }
@@ -156,13 +156,13 @@ function addSlideInfo() {
 // Show specific slide
 function showSlide(index) {
     if (index < 0 || index >= currentSlides.length) return;
-    
+
     // Hide current slide
     const currentSlide = slidesContainer.querySelector('.slide.active');
     if (currentSlide) {
         currentSlide.classList.remove('active');
     }
-    
+
     // Show new slide
     const newSlide = slidesContainer.querySelector(`[data-slide-index="${index}"]`);
     if (newSlide) {
@@ -190,23 +190,23 @@ function previousSlide() {
 function toggleZoom(event) {
     const slide = event.target.closest('.slide');
     const img = event.target;
-    
+
     if (!isZoomed) {
         // Calculate click position for targeted zoom
         const rect = img.getBoundingClientRect();
         const x = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
         const y = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
-        
+
         img.style.transformOrigin = `${50 + x * 20}% ${50 + y * 20}%`;
         slide.classList.add('zoomed');
         isZoomed = true;
-        
+
         // Disable auto-slide during zoom
         pauseAutoSlide();
     } else {
         slide.classList.remove('zoomed');
         isZoomed = false;
-        
+
         // Reactivate auto-slide
         resumeAutoSlide();
     }
@@ -253,8 +253,8 @@ function setupKeyboardControls() {
 function handleKeyboard(event) {
     // Only works if the slider is active
     if (!slidesContainer || !slidesContainer.querySelector('.slide.active')) return;
-    
-    switch(event.key) {
+
+    switch (event.key) {
         case 'ArrowLeft':
         case 'ArrowUp':
             event.preventDefault();
@@ -307,7 +307,7 @@ function addAutoSlideControls() {
         gap: 10px;
         z-index: 15;
     `;
-    
+
     const playPauseBtn = document.createElement('button');
     playPauseBtn.className = 'auto-slide-btn';
     playPauseBtn.innerHTML = 'Auto';
@@ -322,7 +322,7 @@ function addAutoSlideControls() {
         font-size: 14px;
     `;
     playPauseBtn.addEventListener('click', toggleAutoSlide);
-    
+
     controlsDiv.appendChild(playPauseBtn);
     slidesContainer.appendChild(controlsDiv);
 }
@@ -339,10 +339,10 @@ function toggleAutoSlide() {
 // Start auto-slide
 function startAutoSlide() {
     if (currentSlides.length <= 1) return;
-    
+
     isAutoSliding = true;
     autoSlideInterval = setInterval(nextSlide, 5000); // 5 seconds
-    
+
     const btn = slidesContainer.querySelector('.auto-slide-btn');
     if (btn) {
         btn.innerHTML = 'Pausar';
@@ -354,7 +354,7 @@ function startAutoSlide() {
 function pauseAutoSlide() {
     isAutoSliding = false;
     clearInterval(autoSlideInterval);
-    
+
     const btn = slidesContainer.querySelector('.auto-slide-btn');
     if (btn) {
         btn.innerHTML = 'Auto';
@@ -372,13 +372,13 @@ function resumeAutoSlide() {
 // Toggle full screen
 function toggleFullscreen() {
     if (!document.fullscreenElement) {
-        slidesContainer.requestFullscreen?.() || 
-        slidesContainer.webkitRequestFullscreen?.() || 
-        slidesContainer.mozRequestFullScreen?.();
+        slidesContainer.requestFullscreen?.() ||
+            slidesContainer.webkitRequestFullscreen?.() ||
+            slidesContainer.mozRequestFullScreen?.();
     } else {
-        document.exitFullscreen?.() || 
-        document.webkitExitFullscreen?.() || 
-        document.mozCancelFullScreen?.();
+        document.exitFullscreen?.() ||
+            document.webkitExitFullscreen?.() ||
+            document.mozCancelFullScreen?.();
     }
 }
 
@@ -386,7 +386,7 @@ function toggleFullscreen() {
 function handleImageError(img, slideDiv) {
     img.alt = 'Erro ao carregar imagem';
     img.style.display = 'none';
-    
+
     const errorDiv = document.createElement('div');
     errorDiv.style.cssText = `
         display: flex;
@@ -406,7 +406,7 @@ function handleImageError(img, slideDiv) {
             <div style="font-size: 14px; margin-top: 5px;">${img.src}</div>
         </div>
     `;
-    
+
     slideDiv.appendChild(errorDiv);
 }
 

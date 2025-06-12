@@ -43,7 +43,7 @@ export async function loadComponent(placeholderId, componentPath) {
 
 // Function that loads sections when using module
 export async function loadSection(sectionName) {
-    try {       
+    try {
         const response = await fetch(`components/sections/${sectionName}.html`);
         if (!response.ok) {
             throw new Error(`Erro ao carregar seção ${sectionName}: ${response.status}`);
@@ -59,8 +59,8 @@ export async function loadSection(sectionName) {
 }
 
 // Function for menu navigation
-window.menu = function(type, index) {
-    switch(type) {
+window.menu = function (type, index) {
+    switch (type) {
         case 'activities':
             loadActivitySection(index);
             break;
@@ -79,7 +79,7 @@ window.menu = function(type, index) {
 async function loadActivitySection(activityIndex) {
     try {
         await loadSection('activity');
-        
+
         // Wait for the DOM to be updated
         setTimeout(() => {
             if (activities[activityIndex]) {
@@ -89,7 +89,7 @@ async function loadActivitySection(activityIndex) {
                 console.error('Índice de atividade inválido:', activityIndex);
             }
         }, 100);
-        
+
     } catch (error) {
         console.error('Erro ao carregar atividade:', error);
     }
@@ -99,7 +99,7 @@ async function loadActivitySection(activityIndex) {
 async function loadSliderSection(sliderIndex) {
     try {
         await loadSection('slider');
-        
+
         // Wait for the DOM to be updated
         setTimeout(() => {
             if (sliders[sliderIndex]) {
@@ -109,7 +109,7 @@ async function loadSliderSection(sliderIndex) {
                 console.error('Índice de slider inválido:', sliderIndex);
             }
         }, 100);
-        
+
     } catch (error) {
         console.error('Erro ao carregar slides:', error);
     }
@@ -120,7 +120,7 @@ async function loadTopicSection(topicIndex) {
     try {
         console.log(`Carregando tópico ${topicIndex}`);
         await loadSection(topics[topicIndex].content);
-        
+
     } catch (error) {
         console.error('Erro ao carregar tópico:', error);
     }

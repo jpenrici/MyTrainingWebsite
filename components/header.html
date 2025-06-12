@@ -23,7 +23,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#" onclick="loadSection('home')">Informática</a>
+            <a class="navbar-brand" href="#" onclick="loadSection('home')" title="Home">Informática</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -51,7 +51,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="sliderDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">Slides</a>
+                            data-bs-toggle="dropdown" aria-expanded="false">Apresentações</a>
                         <ul class="dropdown-menu" aria-labelledby="sliderDropdown">
                             <li><a class="dropdown-item" href="#" onclick="menu('slider', 1)">Slides 01</a></li>
                             <li><a class="dropdown-item" href="#" onclick="menu('slider', 2)">Slides 02</a></li>
@@ -66,6 +66,10 @@
                         <a class="nav-link dropdown-toggle" href="#" id="linksDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">Links Úteis</a>
                         <ul class="dropdown-menu" aria-labelledby="linksDropdown">
+                            <li><a class="dropdown-item" href="https://google.com.br" target="_blank">Google</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li><a class="dropdown-item" href="https://support.microsoft.com/pt-br"
                                     target="_blank">Microsoft - Suporte Oficial</a></li>
                             <li><a class="dropdown-item" href="https://support.microsoft.com/pt-br/word"
@@ -82,7 +86,7 @@
             </div>
             <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="darkModeToggle">
-                <label class="form-check-label text-white" for="darkModeToggle">Modo Escuro</label>
+                <label class="form-check-label text-white" for="darkModeToggle"></label>
             </div>
         </div>
     </nav>

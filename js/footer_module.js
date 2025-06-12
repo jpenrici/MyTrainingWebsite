@@ -1,8 +1,8 @@
 // footer-module.js
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     updateFooterInfo();
-    
+
     // Update footer every second
     setInterval(updateFooterInfo, 1000);
 });
@@ -13,7 +13,7 @@ function updateFooterInfo() {
 
     const now = new Date();
     const locale = navigator.language || "pt-BR";
-    
+
     // Date and time formatting
     const options = {
         weekday: 'long',
@@ -25,9 +25,9 @@ function updateFooterInfo() {
         second: '2-digit',
         timeZone: 'America/Sao_Paulo'
     };
-    
+
     const dateTimeString = now.toLocaleDateString(locale, options);
-    
+
     footerInfo.textContent = `${dateTimeString}`;
 }
 

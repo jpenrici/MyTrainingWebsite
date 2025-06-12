@@ -56,6 +56,47 @@ html {
     overflow: hidden;
 }
 
+.home-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.activity-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 100vh - (header + footer) */
+    height: calc(100vh - calc(var(--height-navbar) + var(--height-footer)));
+    width: 100%;
+}
+
+/* Activities section timer */
+.crono-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Spacing between image and timer */
+    gap: 30px;
+}
+
+.crono-container img {
+    width: 100%;
+    /* Takes up all available height */
+    height: 100%;
+    /* Adjusts the image to fit without distorting */
+    object-fit: cover;
+}
+
+#chronometer {
+    font-size: 5em;
+    margin-bottom: 8px;
+}
+
+.btn i {
+    font-size: 1.2em;
+}
+
 .slider-container {
     position: relative;
     width: 100%;
@@ -150,27 +191,6 @@ html {
     background-color: rgba(255, 255, 255, 0.2);
     color: rgba(193, 214, 253, 1);
 }
-
-/* Activities section timer */
-.crono-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    /* Spacing between image and timer */
-    gap: 30px;
-
-}
-
-#chronometer {
-    font-size: 5em;
-    margin-bottom: 8px;
-}
-
-.btn i {
-    font-size: 1.2em;
-}
-
 
 /* Responsiveness for smaller screens */
 @media (max-width: 768px) {

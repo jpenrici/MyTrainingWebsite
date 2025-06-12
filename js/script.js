@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Load home section by default
         await loadSection('home');
-        
+
         console.log('Aplicação inicializada com sucesso!');
     } catch (error) {
         console.error('Erro ao inicializar aplicação:', error);
